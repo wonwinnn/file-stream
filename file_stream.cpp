@@ -4,6 +4,12 @@
 
 using namespace std;
 
+FileToolkit& FileToolkit::get_instance() {
+
+	static FileToolkit instance;
+	return instance;
+}
+
 String FileToolkit::ReadRow(ifstream &in, int row) {
 
 	string buf;

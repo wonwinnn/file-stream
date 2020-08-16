@@ -3,7 +3,7 @@
 
 #include "file_stream.h"
 
-class TumDepthFileProcessor : public FileToolkit {
+class TumDepthFileProcessor : public FileProcessor {
 private:
 	string root_folder_;
 	string depth_log_ = "depth.txt";
@@ -13,7 +13,7 @@ public:
 	void SetRootFolder(string root_folder);
 };
 
-class TumRgbFileProcessor : public FileToolkit {
+class TumRgbFileProcessor : public FileProcessor {
 private:
 	string root_folder_;
 	string rgb_log_ = "rgb.txt";

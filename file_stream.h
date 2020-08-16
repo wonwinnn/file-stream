@@ -9,17 +9,24 @@
 using namespace std;
 using namespace cv;
 
-class FileProcessor {
+class FileToolkit {
+private:
+	FileToolkit() = default;
 public:
+	FileToolkit(const FileToolkit&) = delete;
+	FileToolkit& operator = (const FileToolkit&) = delete;
+	static FileToolkit& get_instance();
+	~FileToolkit() = default;
+	string ReadRow(ifstream & in, int row);
+	string ReadColunmFromRow(string row_string, char separator, int colunm);
+};
+
+class FileProcessor {	
+public:
+	FileToolkit &file_toolkit_ = FileToolkit::get_instance();
 	Mat ReadFrame(int frame_num);
 	virtual string CreateFileNameByRule(int frame_num) = 0;
 	virtual Mat FileRead(string file_name) = 0;
-};
-
-class FileToolkit : public FileProcessor {
-public:
-	string ReadRow(ifstream & in, int row);
-	string ReadColunmFromRow(string row_string, char separator, int colunm);
 };
 
 // The frame processor interface

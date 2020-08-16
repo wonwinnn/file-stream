@@ -1,4 +1,3 @@
-#include <string>
 #include "video_play.h"
 
 void VideoPlayer::ProcessFrame(vector<Mat> &input) {
