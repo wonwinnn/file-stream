@@ -2,16 +2,16 @@
 #define FILE_STREAM_H
 
 #include <string>
+#include <vector>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
 using namespace std;
 using namespace cv;
 
-// The file processor interface
 class FileProcessor {
 public:
-	bool ReadFrame(int frame_num, Mat &output);
+	Mat ReadFrame(int frame_num);
 	virtual string CreateFileNameByRule(int frame_num) = 0;
 	virtual Mat FileRead(string file_name) = 0;
 };
@@ -25,7 +25,7 @@ public:
 // The frame processor interface
 class FrameProcessor {
 public:
-	virtual void ProcessFrame(Mat &input) = 0;
+	virtual void ProcessFrame(vector<Mat> &input) = 0;
 };
 
 class StreamProcessor {
@@ -35,10 +35,11 @@ private:
 	int frame_begin_ = 0;
 	int frame_end_ = 0;
 	int frame_current_ = 0;
-	FileProcessor *file_processor_;
+	vector<Mat> frame_inputs_;
+	vector<FileProcessor *>file_processors_;
 	FrameProcessor *frame_processor_;
 public:
-	void SetFileProcessor(FileProcessor *file_processor);
+	void AddFileProcessor(FileProcessor *file_processor);
 	void SetFrameProcessor(FrameProcessor *frame_processor);
 	void SetFrameBegin(int frame_begin);
 	void SetFrameEnd(int frame_end);

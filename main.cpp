@@ -4,14 +4,19 @@
 
 int main() {
 
-	TumRgbFileProcessor tum;
 	string folder = "F:\\SlamDatasets\\rgbd_dataset_freiburg1_desk\\rgbd_dataset_freiburg1_desk\\";
-	tum.SetRootFolder(folder);
+
+	TumRgbFileProcessor tum_rgb;
+	tum_rgb.SetRootFolder(folder);
+
+	TumDepthFileProcessor tum_depth;
+	tum_depth.SetRootFolder(folder);
 
 	VideoPlayer video;
 
 	StreamProcessor stream;
-	stream.SetFileProcessor(&tum);
+	stream.AddFileProcessor(&tum_rgb);
+	stream.AddFileProcessor(&tum_depth);
 	stream.SetFrameProcessor(&video);
 	stream.SetFrameBegin(0);
 	stream.SetFrameEnd(100);

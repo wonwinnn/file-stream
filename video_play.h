@@ -5,7 +5,7 @@
 
 class VideoPlayer : public FrameProcessor {
 public:
-	void ProcessFrame(Mat &input);
+	void ProcessFrame(vector<Mat> &input);
 };
 
 #endif // !VIDEO_PLAY_H

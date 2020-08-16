@@ -44,22 +44,19 @@ string FileToolkit::ReadColunmFromRow(string row_string, char separator, int col
 	}
 }
 
-bool FileProcessor::ReadFrame(int frame_num, Mat &output) {
+Mat FileProcessor::ReadFrame(int frame_num) {
 
+	Mat frame;
 	string file_name = CreateFileNameByRule(frame_num);
-	if (!file_name.empty()) {
-		Mat frame = FileRead(file_name);
-		frame.copyTo(output);
-	}
-	else
-		return 0;
+	if (!file_name.empty())
+		frame = FileRead(file_name);
 
-	return 1;
+	return frame;
 }
 
-void StreamProcessor::SetFileProcessor(FileProcessor *file_processor) {
+void StreamProcessor::AddFileProcessor(FileProcessor *file_processor) {
 
-	file_processor_ = file_processor;
+	file_processors_.push_back(file_processor);
 }
 
 void StreamProcessor::SetFrameProcessor(FrameProcessor *frame_processor) {
@@ -77,7 +74,6 @@ void StreamProcessor::SetFrameEnd(int frame_end) {
 	frame_end_ = frame_end;
 }
 
-
 void StreamProcessor::GetReady() {
 
 	frame_current_ = frame_begin_;
@@ -85,11 +81,14 @@ void StreamProcessor::GetReady() {
 
 void StreamProcessor::Run(){
 
-	Mat frame;
 	while (!stopped_) {
-		if (file_processor_->ReadFrame(frame_current_, frame)) {
-			frame_processor_->ProcessFrame(frame);
+		if (!file_processors_.empty()) {
+			for (vector<FileProcessor *>::iterator it = file_processors_.begin();
+				it != file_processors_.end(); it++)
+				frame_inputs_.push_back((*it)->ReadFrame(frame_current_));
+			frame_processor_->ProcessFrame(frame_inputs_);
 			frame_current_++;
+			frame_inputs_.clear();
 			if (frame_current_ == frame_end_)
 				stopped_ = true;
 		}
