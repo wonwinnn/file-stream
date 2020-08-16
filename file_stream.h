@@ -18,7 +18,7 @@ public:
 	static FileToolkit& get_instance();
 	~FileToolkit() = default;
 	string ReadRow(ifstream & in, int row);
-	string ReadColunmFromRow(string row_string, char separator, int colunm);
+	string ReadColumnFromRow(string row_string, char separator, int column);
 };
 
 class FileProcessor {	

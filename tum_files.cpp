@@ -17,7 +17,7 @@ string TumDepthFileProcessor::CreateFileNameByRule(int frame_num) {
 	}
 
 	string row_string = file_toolkit_.ReadRow(f, frame_num + 4); //data starts from 4th line
-	string file_path = file_toolkit_.ReadColunmFromRow(row_string, ' ', 2); //use whitespace as separator
+	string file_path = file_toolkit_.ReadColumnFromRow(row_string, ' ', 2); //use whitespace as separator
 	replace(file_path.begin(), file_path.end(), '/', '\\');
 
 	return root_folder_ + file_path;
@@ -48,7 +48,7 @@ string TumRgbFileProcessor::CreateFileNameByRule(int frame_num) {
 	}
 
 	string row_string = file_toolkit_.ReadRow(f, frame_num + 4); //data starts from 4th line
-	string file_path = file_toolkit_.ReadColunmFromRow(row_string, ' ', 2);
+	string file_path = file_toolkit_.ReadColumnFromRow(row_string, ' ', 2);
 	replace(file_path.begin(), file_path.end(), '/', '\\');
 
 	return root_folder_ + file_path;

@@ -23,30 +23,29 @@ String FileToolkit::ReadRow(ifstream &in, int row) {
 	return buf;
 }
 
-string FileToolkit::ReadColunmFromRow(string row_string, char separator, int colunm) {
+string FileToolkit::ReadColumnFromRow(string row_string, char separator, int column) {
 
 	if (row_string.back() != separator)
 		row_string = row_string + separator;
 
-	int colunm_cnt = 1;
-	string colunm_string;
+	int column_cnt = 1;
 	int begin = -1;
 	int last_begin = begin;
-	bool colunm_find = false;
+	bool column_find = false;
 	while ((begin = row_string.find(separator, begin + 1)) != string::npos) {
-		if (colunm_cnt == colunm) {
-			colunm_find = true;
+		if (column_cnt == column) {
+			column_find = true;
 			break;
 		}
-		colunm_cnt++;
+		column_cnt++;
 		last_begin = begin;
 	}
 
-	if (colunm_find == true)
+	if (column_find == true)
 		return row_string.substr(last_begin + 1, begin - last_begin - 1);
 	else {
 		cout << "Invalid column" << endl;
-		return colunm_string;
+		return "";
 	}
 }
 
